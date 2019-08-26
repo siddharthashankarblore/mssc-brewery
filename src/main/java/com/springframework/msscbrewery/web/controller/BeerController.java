@@ -2,11 +2,13 @@ package com.springframework.msscbrewery.web.controller;
 
 import java.util.UUID;
 
+import org.springframework.beans.factory.config.YamlProcessor.ResolutionMethod;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -37,6 +39,12 @@ public class BeerController {
 		headers.add("Location","/api/v1/beer" + savedBeerDto.getId().toString());
 		return new ResponseEntity<BeerDto>(headers, HttpStatus.CREATED);
 		
+	}
+	
+	@PutMapping("/{beerId}")
+	public ResponseEntity<BeerDto> handleUpdate(@PathVariable("beerId") UUID beerId, BeerDto beerDto){
+		beerService.updateBeer(beerId, beerDto);
+		return new ResponseEntity(HttpStatus.NO_CONTENT);
 	}
 
 }
